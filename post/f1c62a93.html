@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Spring,Java," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言之前我们对Spring的容器以及依赖注入进行了学习了解，我们知道Spring可以通过XML文件来进行依赖注入，但是我们有时会感觉xml进行注入的方法虽然可以将对象解耦，但是在有些开发中也会感到比较麻烦，所以开发者也对依赖注入的方式进行了很多改变。 在接触注解配置之前，我们先补充一个依赖注入的方式： 使用Spring表达式Spring表达式是Spring引用的类似EL表达式的一个读取方法: 12">
+<meta name="keywords" content="Spring,Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring学习第一章、第三节：基于注解的配置">
+<meta property="og:url" content="http://yoursite.com/post/f1c62a93.html">
+<meta property="og:site_name" content="Wnliam">
+<meta property="og:description" content="前言之前我们对Spring的容器以及依赖注入进行了学习了解，我们知道Spring可以通过XML文件来进行依赖注入，但是我们有时会感觉xml进行注入的方法虽然可以将对象解耦，但是在有些开发中也会感到比较麻烦，所以开发者也对依赖注入的方式进行了很多改变。 在接触注解配置之前，我们先补充一个依赖注入的方式： 使用Spring表达式Spring表达式是Spring引用的类似EL表达式的一个读取方法: 12">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-07T09:20:25.533Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring学习第一章、第三节：基于注解的配置">
+<meta name="twitter:description" content="前言之前我们对Spring的容器以及依赖注入进行了学习了解，我们知道Spring可以通过XML文件来进行依赖注入，但是我们有时会感觉xml进行注入的方法虽然可以将对象解耦，但是在有些开发中也会感到比较麻烦，所以开发者也对依赖注入的方式进行了很多改变。 在接触注解配置之前，我们先补充一个依赖注入的方式： 使用Spring表达式Spring表达式是Spring引用的类似EL表达式的一个读取方法: 12">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/post/f1c62a93.html"/>
+
+
+
+
+
+  <title>Spring学习第一章、第三节：基于注解的配置 | Wnliam</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b09783d87e6f1a3c07023ecc66618f3c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wnliam</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">王亚宁的博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-🏠-首页">
+          <a href="/" rel="section">
+            
+            🏠 首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-🔖-标签">
+          <a href="/tags/" rel="section">
+            
+            🔖 标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-🍃-分类">
+          <a href="/categories/" rel="section">
+            
+            🍃 分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-🖊-归档">
+          <a href="/archives/" rel="section">
+            
+            🖊 归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-📕-简历">
+          <a href="/about/" rel="section">
+            
+            📕 简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-⭐backstar">
+          <a href="https://yaningnaw.github.io/" rel="section">
+            
+            ⭐backStar
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/post/f1c62a93.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王亚宁 Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://wnliam-cn.gitee.io/yaningnaw.github.io/assets/img/profile.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wnliam">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring学习第一章、第三节：基于注解的配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-07T17:20:25+08:00">
+                2018-11-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/stadyNotes/" itemprop="url" rel="index">
+                    <span itemprop="name">stadyNotes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/post/f1c62a93.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="post/f1c62a93.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>之前我们对Spring的容器以及依赖注入进行了学习了解，我们知道Spring可以通过XML文件来进行依赖注入，但是我们有时会感觉xml进行注入的方法虽然可以将对象解耦，但是在有些开发中也会感到比较麻烦，所以开发者也对依赖注入的方式进行了很多改变。</p>
+<p>在接触注解配置之前，我们先补充一个依赖注入的方式：</p>
+<h3 id="使用Spring表达式"><a href="#使用Spring表达式" class="headerlink" title="使用Spring表达式"></a>使用Spring表达式</h3><p>Spring表达式是Spring引用的类似EL表达式的一个读取方法:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"msg"</span> <span class="attr">class</span>=<span class="string">"..."</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">value</span>=<span class="string">"张三"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 读取.properties文件的bean --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">util:properties</span> <span class="attr">id</span>=<span class="string">"config"</span> <span class="attr">location</span>=<span class="string">"classpath:config.properties"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"..."</span> <span class="attr">class</span>=<span class="string">"..."</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 为节省时间接下来的栗子和前一节注入集合部分的xml内容相关 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 这里的msg是其他bean,底层调用msg的对象的get方法 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">value</span>=<span class="string">"#&#123;msg.name&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 对数组内的值进行获取 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"city"</span> <span class="attr">value</span>=<span class="string">"#&#123;vb1.list1[1]&#125;"</span>/&gt;</span></span><br><span class="line">	 	<span class="comment">&lt;!-- 对Map进行获取（后面是建） --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"score"</span> <span class="attr">value</span>=<span class="string">"#&#123;vb1.mapa.english&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 如果map的键是中文可以用另一种方法（这种方法通用）--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"score"</span> <span class="attr">value</span>=<span class="string">"#&#123;vb1.mapa['历史']&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 读取文件中的属性 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"pageSize"</span> <span class="attr">value</span>=<span class="string">"#&#123;config.propertiessize&#125;"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="什么是注解？"><a href="#什么是注解？" class="headerlink" title="什么是注解？"></a>什么是注解？</h3><p>可以参考上一篇文章<a href="http://note.youdao.com/" target="_blank" rel="noopener">：再有人问注解就把这篇文章丢给他！</a>，<a href="http://note.youdao.com/" target="_blank" rel="noopener">Java注解基本原理</a>  </p>
+<p>好了，现在我们就开始学习Spring是如何使用注解来简化配置了！</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="基于Xml的配置"><a href="#基于Xml的配置" class="headerlink" title="基于Xml的配置"></a>基于Xml的配置</h2><blockquote>
+<p>从 Spring 2.5 开始就可以使用注解来配置依赖注入。而不是采用 XML 来描述一个 bean 连线，你可以使用相关类，方法或字段声明的注解，将 bean 配置移动到组件类本身。<br>在 XML 注入之前进行注解注入，因此后者的配置将通过两种方式的属性连线被前者重写。  </p>
+</blockquote>
+<p>注解连线在默认情况下在 Spring 容器中不打开。因此，在可以使用基于注解的连线之前，我们将需要在我们的 Spring 配置文件中启用它。所以如果你想在 Spring 应用程序中使用的任何注解，可以考虑到下面的配置文件。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/context/spring-context-3.0.xsd"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;<span class="name">context:annotation-config</span>/&gt;</span></span><br><span class="line">   <span class="comment">&lt;!-- bean definitions go here --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>一旦 被配置后，你就可以开始注解你的代码，表明 Spring 应该自动连接值到属性，方法和构造函数。让我们来看看几个重要的注解，并且了解它们是如何工作的：</p>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@Required</td>
+<td>@Required 注解应用于 bean 属性的 setter 方法</td>
+</tr>
+<tr>
+<td>@Autowired</td>
+<td>@Autowired 注解可以应用到 bean 属性的 setter 方法，非 setter 方法，构造函数和属性</td>
+</tr>
+<tr>
+<td>@Qualifier</td>
+<td>@Qualifier 通过指定确切的将被连线的 bean，@Autowired 和 @Qualifier 注解可以用来删除混乱。</td>
+</tr>
+<tr>
+<td>more</td>
+<td>Spring 支持 JSR-250 的基础的注解，其中包括了 @Resource，@PostConstruct 和 @PreDestroy 注解</td>
+</tr>
+</tbody>
+</table>
+<h3 id="组件扫描"><a href="#组件扫描" class="headerlink" title="组件扫描"></a>组件扫描</h3><p>举个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> annotation;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(<span class="string">"sb1"</span>)</span><br><span class="line"><span class="comment">//相当于配置文件中有id等于sb1的Bean</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SomeBean</span> </span>&#123;</span><br><span class="line">	<span class="comment">//组件</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">SomeBean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"SomeBean"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"annotation"</span>&gt;</span><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>base-package:spring容器回扫描该包和其子包的所有类如果该类前有特定的注解（如@Component），则Spring容器会将其纳入容器进行管理。相当于配置Bean元素</p>
+<p>而这有一些等价的可替换使用的注解（只是增加代码的可读性）：</p>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@Component</td>
+<td>通用注解</td>
+</tr>
+<tr>
+<td>@Named</td>
+<td>通用注解</td>
+</tr>
+<tr>
+<td>@Repository</td>
+<td>持久层组建注解（Dao）</td>
+</tr>
+<tr>
+<td>@Service</td>
+<td>业务层注解</td>
+</tr>
+<tr>
+<td>@Controller</td>
+<td>控制层组件注解</td>
+</tr>
+</tbody>
+</table>
+<h3 id="指定作用域-Scope"><a href="#指定作用域-Scope" class="headerlink" title="指定作用域 @Scope"></a>指定作用域 @Scope</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> annotation;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="meta">@Scope</span>(<span class="string">"prototype"</span>)</span><br><span class="line"><span class="comment">//使用注解制定作用域为非单例</span></span><br><span class="line"><span class="meta">@Component</span>(<span class="string">"sb1"</span>)</span><br><span class="line"><span class="comment">//相当于配置文件中有id等于sb1的Bean</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SomeBean</span> </span>&#123;</span><br><span class="line">	<span class="comment">//组件</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">SomeBean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"SomeBean"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Spring-生命周期"><a href="#Spring-生命周期" class="headerlink" title="Spring 生命周期"></a>Spring 生命周期</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> annotation;</span><br><span class="line"><span class="keyword">import</span> javax.annotation.PostConstruct;</span><br><span class="line"><span class="keyword">import</span> javax.annotation.PreDestroy;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Scope;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="meta">@Scope</span>(<span class="string">"prototype"</span>)</span><br><span class="line"><span class="comment">//使用注解制定作用域为非单例</span></span><br><span class="line"><span class="meta">@Component</span>(<span class="string">"sb1"</span>)</span><br><span class="line"><span class="comment">//相当于配置文件中有id等于sb1的Bean</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SomeBean</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//把该方法注解为初始化方法(对象创建好之后)</span></span><br><span class="line">	<span class="meta">@PostConstruct</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"init"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//销毁方法</span></span><br><span class="line">	<span class="meta">@PreDestroy</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">SomeBean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"SomeBean"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>==这个注解来自于Sun公司，Tomcat中有这个注解，所以光有Spring还不行哦==</p>
+<h3 id="延迟加载-Lazy"><a href="#延迟加载-Lazy" class="headerlink" title="延迟加载 @Lazy"></a>延迟加载 @Lazy</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Lazy;</span><br><span class="line"><span class="meta">@Lazy</span>(<span class="keyword">true</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SomeBean</span> </span>&#123;</span><br><span class="line">	<span class="comment">//@Lazy(true)表示延迟加载</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">SomeBean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"SomeBean"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Spring关于注入的注解"><a href="#Spring关于注入的注解" class="headerlink" title="Spring关于注入的注解"></a>Spring关于注入的注解</h3><h4 id="Spring-Required注解"><a href="#Spring-Required注解" class="headerlink" title="Spring @Required注解"></a>Spring @Required注解</h4><blockquote>
+<p>@Required 注释应用于 bean 属性的 setter 方法，它表明受影响的 bean 属性在配置时必须放在 XML 配置文件中，否则容器就会抛出一个 BeanInitializationException 异常。下面显示的是一个使用 @Required 注释的示例。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Required;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> Integer age;</span><br><span class="line">   <span class="keyword">private</span> String name;</span><br><span class="line">   <span class="meta">@Required</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(Integer age)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.age = age;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> Integer <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> age;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="meta">@Required</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.name = name;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> name;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>意思就是，在执行容器时，若age和name没有注入值，则报错。</p>
+<h3 id="自动装配-依赖注入-Autowired注解"><a href="#自动装配-依赖注入-Autowired注解" class="headerlink" title="自动装配/依赖注入 @Autowired注解"></a>自动装配/依赖注入 @Autowired注解</h3><p>因为不经过xml，所以注解定义自动装配来进行依赖注入</p>
+<blockquote>
+<p><strong>Spring @Autowired 注释</strong><br>@Autowired 注释对在哪里和如何完成自动连接提供了更多的细微的控制。<br>@Autowired 注释可以在 setter 方法中被用于自动连接 bean，就像 @Autowired 注释，容器，一个属性或者任意命名的可能带有多个参数的方法。<br><strong>Setter 方法中的 @Autowired</strong><br>你可以在 XML 文件中的 setter 方法中使用 @Autowired 注释来除去 元素。当 Spring遇到一个在 setter 方法中使用的 @Autowired 注释，它会在方法中视图执行 byType 自动连接。 </p>
+</blockquote>
+<p>举例：</p>
+<h4 id="Setter方法上的-Autowired"><a href="#Setter方法上的-Autowired" class="headerlink" title="Setter方法上的@Autowired"></a><strong>Setter方法上的@Autowired</strong></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TextEditor</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> SpellChecker spellChecker;</span><br><span class="line">   <span class="meta">@Autowired</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSpellChecker</span><span class="params">( SpellChecker spellChecker )</span></span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.spellChecker = spellChecker;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> SpellChecker <span class="title">getSpellChecker</span><span class="params">( )</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> spellChecker;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">spellCheck</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      spellChecker.checkSpelling();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpellChecker</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">SpellChecker</span><span class="params">()</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Inside SpellChecker constructor."</span> );</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">checkSpelling</span><span class="params">()</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Inside checkSpelling."</span> );</span><br><span class="line">   &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时，@Autowired会对Setter方法进行自动装配（试图使用byType）</p>
+<h4 id="属性中的-Autowired"><a href="#属性中的-Autowired" class="headerlink" title="属性中的@Autowired"></a><strong>属性中的@Autowired</strong></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TextEditor</span> </span>&#123;</span><br><span class="line">   <span class="meta">@Autowired</span></span><br><span class="line">   <span class="keyword">private</span> SpellChecker spellChecker;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">TextEditor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Inside TextEditor constructor."</span> );</span><br><span class="line">   &#125;  </span><br><span class="line">   <span class="function"><span class="keyword">public</span> SpellChecker <span class="title">getSpellChecker</span><span class="params">( )</span></span>&#123;</span><br><span class="line">      <span class="keyword">return</span> spellChecker;</span><br><span class="line">   &#125;  </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">spellCheck</span><span class="params">()</span></span>&#123;</span><br><span class="line">      spellChecker.checkSpelling();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时，将不需要Setter方法，就可以将被注解的属性在容器中查找到相应的引用进行装配</p>
+<h4 id="构造函数中的-Autowired"><a href="#构造函数中的-Autowired" class="headerlink" title="构造函数中的 @Autowired"></a><strong>构造函数中的 @Autowired</strong></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TextEditor</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> SpellChecker spellChecker;</span><br><span class="line">   <span class="meta">@Autowired</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">TextEditor</span><span class="params">(SpellChecker spellChecker)</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Inside TextEditor constructor."</span> );</span><br><span class="line">      <span class="keyword">this</span>.spellChecker = spellChecker;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">spellCheck</span><span class="params">()</span></span>&#123;</span><br><span class="line">      spellChecker.checkSpelling();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时会根据构造器进行自动装配。</p>
+<h4 id="Autowired-的（required-false）选项"><a href="#Autowired-的（required-false）选项" class="headerlink" title="@Autowired 的（required=false）选项"></a><strong>@Autowired 的（required=false）选项</strong></h4><p>默认情况下，@Autowired 注释意味着依赖是必须的，它类似于 @Required 注释，然而，你可以使用 @Autowired 的 （required=false） 选项关闭默认行为。<br>即使你不为 age 属性传递任何参数，下面的示例也会成功运行，但是对于 name 属性则需要一个参数。你可以自己尝试一下这个示例，因为除了只有 Student.java 文件被修改以外，它和 @Required 注释示例是相似的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> Integer age;</span><br><span class="line">   <span class="keyword">private</span> String name;</span><br><span class="line">   <span class="meta">@Autowired</span>(required=<span class="keyword">false</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(Integer age)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.age = age;</span><br><span class="line">   &#125;  </span><br><span class="line">   <span class="function"><span class="keyword">public</span> Integer <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> age;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="meta">@Autowired</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.name = name;</span><br><span class="line">   &#125;   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> name;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Qualifier注释消除混乱"><a href="#Qualifier注释消除混乱" class="headerlink" title="@Qualifier注释消除混乱"></a>@Qualifier注释消除混乱</h3><blockquote>
+<p>可能会有这样一种情况，当你创建多个具有相同类型的 bean 时，并且想要用一个属性只为它们其中的一个进行装配，在这种情况下，你可以使用 @Qualifier 注释和 @Autowired 注释通过指定哪一个真正的 bean 将会被装配来消除混乱。下面显示的是使用 @Qualifier 注释的一个示例</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.tutorialspoint;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> Integer age;</span><br><span class="line">   <span class="keyword">private</span> String name;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(Integer age)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.age = age;</span><br><span class="line">   &#125;   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> Integer <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> age;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.name = name;</span><br><span class="line">   &#125;  </span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> name;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.tutorialspoint;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Qualifier;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Profile</span> </span>&#123;</span><br><span class="line">   <span class="meta">@Autowired</span></span><br><span class="line">   <span class="meta">@Qualifier</span>(<span class="string">"student1"</span>)</span><br><span class="line">   <span class="keyword">private</span> Student student;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">Profile</span><span class="params">()</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Inside Profile constructor."</span> );</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Age : "</span> + student.getAge() );</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Name : "</span> + student.getName() );</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Definition for profile bean --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"profile"</span> <span class="attr">class</span>=<span class="string">"com.tutorialspoint.Profile"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!-- Definition for student1 bean --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"student1"</span> <span class="attr">class</span>=<span class="string">"com.tutorialspoint.Student"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"name"</span>  <span class="attr">value</span>=<span class="string">"Zara"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"age"</span>  <span class="attr">value</span>=<span class="string">"11"</span>/&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!-- Definition for student2 bean --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"student2"</span> <span class="attr">class</span>=<span class="string">"com.tutorialspoint.Student"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"name"</span>  <span class="attr">value</span>=<span class="string">"Nuha"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"age"</span>  <span class="attr">value</span>=<span class="string">"2"</span>/&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="Resource-注解"><a href="#Resource-注解" class="headerlink" title="@Resource 注解"></a>@Resource 注解</h3><p>与生命周期的注解同属于JSR-250注解<br>@Resource 注释是根据byName规则进行依赖注入的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.annotation.Resource;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TextEditor</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> SpellChecker spellChecker;</span><br><span class="line">   <span class="meta">@Resource</span>(name= <span class="string">"spellChecker"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSpellChecker</span><span class="params">( SpellChecker spellChecker )</span></span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.spellChecker = spellChecker;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> SpellChecker <span class="title">getSpellChecker</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="keyword">return</span> spellChecker;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">spellCheck</span><span class="params">()</span></span>&#123;</span><br><span class="line">      spellChecker.checkSpelling();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="基于Java的配置"><a href="#基于Java的配置" class="headerlink" title="基于Java的配置"></a>基于Java的配置</h2><blockquote>
+<p>到目前为止，你已经看到如何使用 XML 配置文件来配置 Spring bean。如果你熟悉使用 XML 配置，那么我会说，不需要再学习如何进行基于 Java 的配置是，因为你要达到相同的结果，可以使用其他可用的配置。<br>基于 Java 的配置选项，可以使你在不用配置 XML 的情况下编写大多数的 Spring，但是一些有帮助的基于 Java 的注解，解释如下：</p>
+</blockquote>
+<p>@Configuration 和 @Bean 注解<br>带有 @Configuration 的注解类表示这个类可以使用 Spring IoC 容器作为 bean 定义的来源。@Bean 注解告诉 Spring，一个带有 @Bean 的注解方法将返回一个对象，该对象应该被注册为在 Spring 应用程序上下文中的 bean。最简单可行的 @Configuration 类如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.*;</span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorldConfig</span> </span>&#123;</span><br><span class="line">   <span class="meta">@Bean</span> </span><br><span class="line">   <span class="function"><span class="keyword">public</span> HelloWorld <span class="title">helloWorld</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> HelloWorld();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>等同于：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"helloWorld"</span> <span class="attr">class</span>=<span class="string">"com.tutorialspoint.HelloWorld"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在这里，带有 @Bean 注解的方法名称作为 bean 的 ID，它创建并返回实际的 bean。你的配置类可以声明多个 @Bean。一旦定义了配置类，你就可以使用 AnnotationConfigApplicationContext 来加载并把他们提供给 Spring 容器，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">   ApplicationContext ctx = </span><br><span class="line">   <span class="keyword">new</span> AnnotationConfigApplicationContext(HelloWorldConfig.class); </span><br><span class="line">   HelloWorld helloWorld = ctx.getBean(HelloWorld.class);</span><br><span class="line">   helloWorld.setMessage(<span class="string">"Hello World!"</span>);</span><br><span class="line">   helloWorld.getMessage();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="注入-Bean-的依赖性"><a href="#注入-Bean-的依赖性" class="headerlink" title="注入 Bean 的依赖性"></a>注入 Bean 的依赖性</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.*;</span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppConfig</span> </span>&#123;</span><br><span class="line">   <span class="meta">@Bean</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> Foo <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> Foo(bar());</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="meta">@Bean</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> Bar <span class="title">bar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> Bar();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Import-注解"><a href="#Import-注解" class="headerlink" title="@Import 注解"></a>@Import 注解</h3><p>@import 注解允许从另一个配置类中加载 @Bean 定义。考虑 ConfigA 类，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConfigA</span> </span>&#123;</span><br><span class="line">   <span class="meta">@Bean</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> A <span class="title">a</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> A(); </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Import</span>(ConfigA.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConfigB</span> </span>&#123;</span><br><span class="line">   <span class="meta">@Bean</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> B <span class="title">a</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> A(); </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="生命周期回调"><a href="#生命周期回调" class="headerlink" title="生命周期回调"></a>生命周期回调</h3><p>@Bean 注解支持指定任意的初始化和销毁的回调方法，就像在 bean 元素中 Spring 的 XML 的初始化方法和销毁方法的属性：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="comment">// initialization logic</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cleanup</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="comment">// destruction logic</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppConfig</span> </span>&#123;</span><br><span class="line">   <span class="meta">@Bean</span>(initMethod = <span class="string">"init"</span>, destroyMethod = <span class="string">"cleanup"</span> )</span><br><span class="line">   <span class="function"><span class="keyword">public</span> Foo <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> Foo();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="指定-Bean-的作用域"><a href="#指定-Bean-的作用域" class="headerlink" title="指定 Bean 的作用域"></a>指定 Bean 的作用域</h3><p>默认范围是单实例，但是你可以重写带有 @Scope 注解的该方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppConfig</span> </span>&#123;</span><br><span class="line">   <span class="meta">@Bean</span></span><br><span class="line">   <span class="meta">@Scope</span>(<span class="string">"prototype"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> Foo <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> Foo();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Spring-事件处理"><a href="#Spring-事件处理" class="headerlink" title="Spring 事件处理"></a>Spring 事件处理</h2><p>你已经看到了在所有章节中 Spring 的核心是 ApplicationContext，它负责管理 beans 的完整生命周期。当加载 beans 时，ApplicationContext 发布某些类型的事件。例如，当上下文启动时，ContextStartedEvent 发布，当上下文停止时，ContextStoppedEvent 发布。<br>通过 ApplicationEvent 类和 ApplicationListener 接口来提供在 ApplicationContext 中处理事件。如果一个 bean 实现 ApplicationListener，那么每次 ApplicationEvent 被发布到 ApplicationContext 上，那个 bean 会被通知。<br>Spring 提供了以下的标准事件：</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>Spring 内置事件 &amp; 描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 1</td>
+<td><strong>ContextRefreshedEvent</strong>：ApplicationContext 被初始化或刷新时，该事件被发布。这也可以在 ConfigurableApplicationContext 接口中使用 refresh() 方法来发生。</td>
+</tr>
+<tr>
+<td> 2</td>
+<td><strong>ContextStartedEvent</strong>：当使用 ConfigurableApplicationContext 接口中的 start() 方法启动 ApplicationContext 时，该事件被发布。你可以调查你的数据库，或者你可以在接受到这个事件后重启任何停止的应用程序。</td>
+</tr>
+<tr>
+<td> 3</td>
+<td><strong>ContextStoppedEvent</strong>：当使用 ConfigurableApplicationContext 接口中的 stop() 方法停止 ApplicationContext 时，发布这个事件。你可以在接受到这个事件后做必要的清理的工作。</td>
+</tr>
+<tr>
+<td> 4</td>
+<td><strong>ContextClosedEvent</strong>：当使用 ConfigurableApplicationContext 接口中的 close() 方法关闭 ApplicationContext 时，该事件被发布。一个已关闭的上下文到达生命周期末端；它不能被刷新或重启。</td>
+</tr>
+<tr>
+<td> 5</td>
+<td><strong>RequestHandledEvent</strong>：这是一个 web-specific 事件，告诉所有 bean HTTP 请求已经被服务。</td>
+</tr>
+</tbody>
+</table>
+<p> 举个例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">package</span> com.tutorialspoint;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> String message;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMessage</span><span class="params">(String message)</span></span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.message  = message;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getMessage</span><span class="params">()</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Your Message : "</span> + message);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">package</span> com.tutorialspoint;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationListener;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.event.ContextStartedEvent;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CStartEventHandler</span> </span></span><br><span class="line"><span class="class">   <span class="keyword">implements</span> <span class="title">ApplicationListener</span>&lt;<span class="title">ContextStartedEvent</span>&gt;</span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onApplicationEvent</span><span class="params">(ContextStartedEvent event)</span> </span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"ContextStartedEvent Received"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">package</span> com.tutorialspoint;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationListener;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.event.ContextStoppedEvent;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CStopEventHandler</span> </span></span><br><span class="line"><span class="class">   <span class="keyword">implements</span> <span class="title">ApplicationListener</span>&lt;<span class="title">ContextStoppedEvent</span>&gt;</span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onApplicationEvent</span><span class="params">(ContextStoppedEvent event)</span> </span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"ContextStoppedEvent Received"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"helloWorld"</span> <span class="attr">class</span>=<span class="string">"com.tutorialspoint.HelloWorld"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"message"</span> <span class="attr">value</span>=<span class="string">"Hello World!"</span>/&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"cStartEventHandler"</span> </span></span><br><span class="line"><span class="tag">         <span class="attr">class</span>=<span class="string">"com.tutorialspoint.CStartEventHandler"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"cStopEventHandler"</span> </span></span><br><span class="line"><span class="tag">         <span class="attr">class</span>=<span class="string">"com.tutorialspoint.CStopEventHandler"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="扩展：Spring-中自定义事件"><a href="#扩展：Spring-中自定义事件" class="headerlink" title="扩展：Spring 中自定义事件"></a>扩展：<a href="https://blog.csdn.net/qq_32665329/article/details/83827473" target="_blank" rel="noopener">Spring 中自定义事件</a></h2><p>##本文供自身学习分享，多有参考，不足之处请指出</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/7f36606d.html" rel="next" title="Spring学习第一章、第二节：依赖注入（包括自动装配，对象的注入）">
+                <i class="fa fa-chevron-left"></i> Spring学习第一章、第二节：依赖注入（包括自动装配，对象的注入）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://wnliam-cn.gitee.io/yaningnaw.github.io/assets/img/profile.jpg"
+                alt="王亚宁 Doe" />
+            
+              <p class="site-author-name" itemprop="name">王亚宁 Doe</p>
+              <p class="site-description motion-element" itemprop="description">书山有路勤为径，学海无涯苦作舟</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Wnliam" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:hhtwangyaning@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Spring表达式"><span class="nav-number">1.0.1.</span> <span class="nav-text">使用Spring表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是注解？"><span class="nav-number">1.0.2.</span> <span class="nav-text">什么是注解？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于Xml的配置"><span class="nav-number">2.1.</span> <span class="nav-text">基于Xml的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组件扫描"><span class="nav-number">2.1.1.</span> <span class="nav-text">组件扫描</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定作用域-Scope"><span class="nav-number">2.1.2.</span> <span class="nav-text">指定作用域 @Scope</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-生命周期"><span class="nav-number">2.1.3.</span> <span class="nav-text">Spring 生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#延迟加载-Lazy"><span class="nav-number">2.1.4.</span> <span class="nav-text">延迟加载 @Lazy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring关于注入的注解"><span class="nav-number">2.1.5.</span> <span class="nav-text">Spring关于注入的注解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring-Required注解"><span class="nav-number">2.1.5.1.</span> <span class="nav-text">Spring @Required注解</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动装配-依赖注入-Autowired注解"><span class="nav-number">2.1.6.</span> <span class="nav-text">自动装配/依赖注入 @Autowired注解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Setter方法上的-Autowired"><span class="nav-number">2.1.6.1.</span> <span class="nav-text">Setter方法上的@Autowired</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性中的-Autowired"><span class="nav-number">2.1.6.2.</span> <span class="nav-text">属性中的@Autowired</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构造函数中的-Autowired"><span class="nav-number">2.1.6.3.</span> <span class="nav-text">构造函数中的 @Autowired</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Autowired-的（required-false）选项"><span class="nav-number">2.1.6.4.</span> <span class="nav-text">@Autowired 的（required=false）选项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Qualifier注释消除混乱"><span class="nav-number">2.1.7.</span> <span class="nav-text">@Qualifier注释消除混乱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Resource-注解"><span class="nav-number">2.1.8.</span> <span class="nav-text">@Resource 注解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于Java的配置"><span class="nav-number">2.2.</span> <span class="nav-text">基于Java的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注入-Bean-的依赖性"><span class="nav-number">2.2.1.</span> <span class="nav-text">注入 Bean 的依赖性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Import-注解"><span class="nav-number">2.2.2.</span> <span class="nav-text">@Import 注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生命周期回调"><span class="nav-number">2.2.3.</span> <span class="nav-text">生命周期回调</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定-Bean-的作用域"><span class="nav-number">2.2.4.</span> <span class="nav-text">指定 Bean 的作用域</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-事件处理"><span class="nav-number">2.3.</span> <span class="nav-text">Spring 事件处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展：Spring-中自定义事件"><span class="nav-number">2.4.</span> <span class="nav-text">扩展：Spring 中自定义事件</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王亚宁 Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://Wnliam.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/post/f1c62a93.html';
+          this.page.identifier = 'post/f1c62a93.html';
+          this.page.title = 'Spring学习第一章、第三节：基于注解的配置';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://Wnliam.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
