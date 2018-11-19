@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Android," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="第一篇 GC如何判断如何回收垃圾mGet(GC); GC ，即Garbage Collection,中文名为“垃圾回收”。   这里的垃圾指的是程序不用的内存空间。 GC的关键就在如何判断什么东西是垃圾。  mGet(引用计数算法) 找到一个对象，给其添加一个引用计数器，每当有一个地方有引用其时，计数器加1，引用失效时，计数器就减1。执行垃圾回收时，判断其引用计数是否为0。引用计数为0表示可回收。">
+<meta name="description" content="前言前几天身体不适，难以将自己定下的目标进行可持续化，整理一些之前写过的笔记来应对一下自己的懒惰，顺便想办法对自己曾学过的Android进行一次回忆。   嗯，现阶段正在调养（苦笑），而且我需要一段时间对Spring进行思维上的整理 正文Service是什么Service是一个后台运行的组件，执行长时间运行且不需要用户交互的任务。即使应用被销毁也依然可以工作。 ++Service需要在Androi">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="漫画编程中对垃圾回收的理解记录">
-<meta property="og:url" content="http://yoursite.com/post/3ee5e646.html">
+<meta property="og:title" content="Android Service理解">
+<meta property="og:url" content="http://yoursite.com/post/337f7657.html">
 <meta property="og:site_name" content="Wnliam">
-<meta property="og:description" content="第一篇 GC如何判断如何回收垃圾mGet(GC); GC ，即Garbage Collection,中文名为“垃圾回收”。   这里的垃圾指的是程序不用的内存空间。 GC的关键就在如何判断什么东西是垃圾。  mGet(引用计数算法) 找到一个对象，给其添加一个引用计数器，每当有一个地方有引用其时，计数器加1，引用失效时，计数器就减1。执行垃圾回收时，判断其引用计数是否为0。引用计数为0表示可回收。">
+<meta property="og:description" content="前言前几天身体不适，难以将自己定下的目标进行可持续化，整理一些之前写过的笔记来应对一下自己的懒惰，顺便想办法对自己曾学过的Android进行一次回忆。   嗯，现阶段正在调养（苦笑），而且我需要一段时间对Spring进行思维上的整理 正文Service是什么Service是一个后台运行的组件，执行长时间运行且不需要用户交互的任务。即使应用被销毁也依然可以工作。 ++Service需要在Androi">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-02T07:18:07.001Z">
+<meta property="og:updated_time" content="2018-11-19T07:14:55.592Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="漫画编程中对垃圾回收的理解记录">
-<meta name="twitter:description" content="第一篇 GC如何判断如何回收垃圾mGet(GC); GC ，即Garbage Collection,中文名为“垃圾回收”。   这里的垃圾指的是程序不用的内存空间。 GC的关键就在如何判断什么东西是垃圾。  mGet(引用计数算法) 找到一个对象，给其添加一个引用计数器，每当有一个地方有引用其时，计数器加1，引用失效时，计数器就减1。执行垃圾回收时，判断其引用计数是否为0。引用计数为0表示可回收。">
+<meta name="twitter:title" content="Android Service理解">
+<meta name="twitter:description" content="前言前几天身体不适，难以将自己定下的目标进行可持续化，整理一些之前写过的笔记来应对一下自己的懒惰，顺便想办法对自己曾学过的Android进行一次回忆。   嗯，现阶段正在调养（苦笑），而且我需要一段时间对Spring进行思维上的整理 正文Service是什么Service是一个后台运行的组件，执行长时间运行且不需要用户交互的任务。即使应用被销毁也依然可以工作。 ++Service需要在Androi">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/post/3ee5e646.html"/>
+  <link rel="canonical" href="http://yoursite.com/post/337f7657.html"/>
 
 
 
 
 
-  <title>漫画编程中对垃圾回收的理解记录 | Wnliam</title>
+  <title>Android Service理解 | Wnliam</title>
   
 
 
@@ -270,7 +271,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/post/3ee5e646.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/post/337f7657.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="王亚宁 Doe">
@@ -287,7 +288,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">漫画编程中对垃圾回收的理解记录</h1>
+          <h1 class="post-title" itemprop="name headline">Android Service理解</h1>
         
 
         <div class="post-meta">
@@ -299,8 +300,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-02T15:18:07+08:00">
-                2018-11-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-19T15:14:55+08:00">
+                2018-11-19
               </time>
             
 
@@ -310,6 +311,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/stadyNotes/" itemprop="url" rel="index">
+                    <span itemprop="name">stadyNotes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -318,9 +341,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/post/3ee5e646.html#comments" itemprop="discussionUrl">
+                <a href="/post/337f7657.html#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="post/3ee5e646.html" itemprop="commentCount"></span>
+                        data-disqus-identifier="post/337f7657.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -348,38 +371,38 @@
       
 
       
-        <h1 id="第一篇-GC如何判断如何回收垃圾"><a href="#第一篇-GC如何判断如何回收垃圾" class="headerlink" title="第一篇 GC如何判断如何回收垃圾"></a>第一篇 GC如何判断如何回收垃圾</h1><h2 id="mGet-GC"><a href="#mGet-GC" class="headerlink" title="mGet(GC);"></a>mGet(GC);</h2><ol>
-<li>GC ，即Garbage Collection,中文名为“垃圾回收”。</li>
-</ol>
-<ul>
-<li>这里的垃圾指的是程序不用的内存空间。</li>
-<li>GC的关键就在如何判断什么东西是垃圾。</li>
-</ul>
-<h2 id="mGet-引用计数算法"><a href="#mGet-引用计数算法" class="headerlink" title="mGet(引用计数算法)"></a>mGet(引用计数算法)</h2><ol>
-<li>找到一个对象，给其添加一个引用计数器，每当有一个地方有引用其时，计数器加1，引用失效时，计数器就减1。执行垃圾回收时，判断其引用计数是否为0。引用计数为0表示可回收。</li>
-</ol>
-<ul>
-<li>该算法比较简单</li>
-<li>有缺点，可能效果不明显（只有一个引用或少量引用且引用不重要）</li>
-<li>缺点2，对象和对象的引用都是垃圾时（循环引用对象，可能有多个），导致无法回收。</li>
-</ul>
-<p><strong>总结：从被使用的对象出发的引用计数算法在进行垃圾回收时不是很可靠</strong></p>
-<h2 id="mGet-可达性分析算法"><a href="#mGet-可达性分析算法" class="headerlink" title="mGet(可达性分析算法)"></a>mGet(可达性分析算法)</h2><ol>
-<li>通过一系列的“GC Root”的对象作为起始点，从这些节点开始向下搜索，所走过的路径成为引用链，当一个对象到GC Root没有任何引用链相连时，则证明次对象不可用。</li>
-<li>从家庭成员出发，一个个询问是否有用，去判断物品的有用程度，一个物品没有任何家庭成员宣布要使用，就像一个对象达到所有的“GC Root”都没有引用链是一样的。</li>
-</ol>
-<ul>
-<li>java中可以作为GC Root的对象包括以下几种：</li>
-</ul>
-<blockquote>
-<ol>
-<li>虚拟机栈中引用的对象</li>
-<li>方法区中静态类引用的对象。</li>
-<li>方法去中常量引用的对象</li>
-<li>本地方法栈中JIN引用的对象</li>
-</ol>
-</blockquote>
-<p><strong>总结：从家庭成员出发的可达性分析算法在进行垃圾回收时比较可靠</strong></p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前几天身体不适，难以将自己定下的目标进行可持续化，整理一些之前写过的笔记来应对一下自己的懒惰，顺便想办法对自己曾学过的Android进行一次回忆。  </p>
+<p>嗯，现阶段正在调养（苦笑），而且我需要一段时间对Spring进行思维上的整理</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h3 id="Service是什么"><a href="#Service是什么" class="headerlink" title="Service是什么"></a>Service是什么</h3><p>Service是一个后台运行的组件，执行长时间运行且不需要用户交互的任务。即使应用被销毁也依然可以工作。</p>
+<p>++<strong>Service需要在AndroidManifest.xml中进行注册！</strong>++<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<h3 id="Service的状态"><a href="#Service的状态" class="headerlink" title="Service的状态"></a>Service的状态</h3><p><strong>启动方式启动（Started状态）</strong>：startService() 启动后，若后台不自动清理，即使启动它的组件被销毁，也会无限期运行下去<br><strong>绑定方式启动（Bound状态）</strong>：bindService()绑定了服务，Bound状态的服务提供了一个客户服务器接口来允许组件与服务进行交互，如发送请求，获取结果，甚至通过IPC来进行跨进程通信。<br>混合方式启动：在一个组件中用两种不同的方式启动了多个服务。</p>
+<h3 id="Service生命周期："><a href="#Service生命周期：" class="headerlink" title="Service生命周期："></a>Service生命周期：</h3><p>1.<strong>通过startService()</strong>：<br>service启动<br>-&gt;<br>onCreate()，第一次创建时执行，只执行一次就可以在以后的执行中继续使用，类似于静态创建的带启动项（初始化）<br>-&gt;<br>onStartCommand（以前是onStart），每开启一个service时执行该方法，该方法内部可以写方法运行时想要执行的业务逻辑，也可以<br>设置为前台服务，若使用该方法，有责任结束service： 停止本身stopSelf();stopSelf(int id);stopSelfResult(int startid);<br>-&gt;<br>onDestroy()，当服务不再有用或者被销毁时，系统调用该方法。你的服务需要实现该方法来清理任何资源，如线程，已注册的监听器，接收器等。<br>-&gt;<br>service结束<br>2.<strong>通过bindService()</strong>：<br>service启动<br>-&gt;<br>onCreate()，第一次创建时执行，只执行一次就可以在以后的执行中继续使用，类似于静态创建的带启动项（初始化）<br>-&gt;<br>onBind()，绑定时，为了定义Activity（发起方）与service的信息传递返回IBinder，IBinder需要自己定义（是返回的与Activity进行数据交换的通道）<br>-&gt;<br>onUnbind()，onRebind()（可能执行）<br>onUnbind()：当客户中断所有服务发布的特殊接口时，系统调用该方法（解除绑定）<br>onRebind()：当新的客户端与服务连接，且此前它已经通过onUnbind(Intent)通知断开连接时，系统调用该方法。（再次绑定）<br>-&gt;<br>onDestroy()，当服务不再有用或者被销毁时，系统调用该方法。你的服务需要实现该方法来清理任何资源，如线程，已注册的监听器，接收器等。<br>-&gt;<br>service结束  </p>
+<h3 id="IntentService："><a href="#IntentService：" class="headerlink" title="IntentService："></a><strong>IntentService</strong>：</h3><p>在把耗时线程放到Service中的onStart()方法中时，很容易引起ANR异常(Application Not Responding)<br>原因：<br>1.Service不是一个单独的进程,它和它的应用程序在同一个进程中<br>2.Service不是一个线程,这样就意味着我们应该避免在Service中进行耗时操作<br>android给出解决上述问题的替代品IntentService。<br>IntentService 是继承与Service并处理异步请求的一个类,在IntentService中有 一个工作线程来处理耗时操作,请求的Intent记录会加入队列<br>工作方式：<br>startService(intent)来启动IntentService<br>执行完毕会自动停止<br>可以启动IntentService多次<br>每个耗时操作会以工作队列的方式在IntentService的 onHandleIntent回调方法中执行<br>并且每次只会执行一个工作线程（从一到二这样依次执行）  </p>
+<h3 id="MediaPlayer的基本使用与Service的整合"><a href="#MediaPlayer的基本使用与Service的整合" class="headerlink" title="MediaPlayer的基本使用与Service的整合"></a>MediaPlayer的基本使用与Service的整合</h3><p>MediaPlayer是播放多媒体文件（视频，音乐和图片），<br>提供了两个静态创建的方法：<br><strong>static MediaPlayer   create(Context context,int resid)</strong>：通过给定的Id来创建一个MediaPlayer实例。<br><strong>static MediaPlayer create(Context context,Uri uri)</strong>：通过给定的Uri来创建一个MediaPlayer实例。<br>还有具体方法可以使用（前几个比较常用）：<br>void pause () 暂停</p>
+<p>void start () 开始</p>
+<p>void stop () 停止</p>
+<p>void prepare() 同步的方式装载流媒体文件。</p>
+<p>void prepareAsync() 异步的方式装载流媒体文件。</p>
+<p>void reset() 重置MediaPlayer至未初始化状态。</p>
+<p>void release () 回收流媒体资源。<br>void setDataSource(String path) 通过一个具体的路径来设置MediaPlayer的数据源，path可以是本地的一个路径，也可以是一个网络路径</p>
+<p>void setDataSource(Context context, Uri uri) 通过给定的Uri来设置MediaPlayer的数据源，这里的Uri可以是网络路径或是一个ContentProvider的Uri。</p>
+<p>void setDataSource(MediaDataSource dataSource) 通过提供的MediaDataSource来设置数据源<br>void setDataSource(FileDescriptor fd) 通过文件描述符FileDescriptor来设置数据源</p>
+<p>int getCurrentPosition() 获取当前播放的位置</p>
+<p>int getAudioSessionId() 返回音频的<br>session ID<br>int getDuration() 得到文件的时间</p>
+<p>TrackInfo[] getTrackInfo() 返回一个track信息的数组</p>
+<p>boolean isLooping () 是否循环播放<br>boolean isPlaying() 是否正在播放</p>
+<p>void seekTo(int msec) 指定播放的位置（以毫秒为单位的时间）</p>
+<p>void setAudioStreamType(int streamtype) 指定流媒体类型</p>
+<p>void setLooping(boolean looping) 设置是否单曲循环</p>
+<p>void setNextMediaPlayer(MediaPlayer next) 当 当前这个MediaPlayer播放完毕后，MediaPlayer next开始播放</p>
+<p>void setWakeMode(Context context, int mode)：设置CPU唤醒的状态。</p>
+<p>setOnBufferingUpdateListener(MediaPlayer.OnBufferingUpdateListener listener) 网络流媒体的缓冲变化时回调<br>setOnCompletionListener(MediaPlayer.OnCompletionListener listener) 网络流媒体播放结束时回调</p>
+<p>setOnErrorListener(MediaPlayer.OnErrorListener listener) 发生错误时回调 </p>
+<p>setOnPreparedListener(MediaPlayer.OnPreparedListener listener)：当装载流媒体完毕的时候回调。</p>
+<p><strong>与service的整合</strong>：需要用到前台服务（优先级更高）：<br>startForeground(1, notification);前面介绍过，在onStartCommand（onStart）方法中进行<br>在此之前（Android8.0 api26之后）需要发送通知：NotificationChannel（notificationManager.createNotificationChannel(notificationChannel1)），<br>notificationChanne是由系统服务NotificationService创建，创建方式Notification.Binder 内容，标题，小图标（<br>Notification.Builder builder = new Notification.Builder(this,”channel1”);<br>        builder.setSmallIcon(R.drawable.ic_tubiao);//图标<br>        builder.setContentText(“音乐播放中。。。”);//内容<br>        builder.setContentTitle(“播放音乐”);//标题<br>）<br>前台服务可以避免MediaPlayer被系统意外终止.</p>
+<h3 id="前台服务："><a href="#前台服务：" class="headerlink" title="前台服务："></a>前台服务：</h3><p>3.<strong>如何创建一个前台服务</strong><br>新建一个服务<br>-&gt;<br>构建通知消息(在Service的onStartCommand中添加如下代码构建Notification)：<br>Notification.Builder builder = new Notification.Builder<br>(this.getApplicationContext()); //获取一个Notification构造器</p>
+<p>Intent nfIntent = new Intent(this, MainActivity.class);<br>　　<br>　　<br>builder.setContentIntent(PendingIntent.<br>getActivity(this, 0, nfIntent, 0)) // 设置PendingIntent<br>　　　　<br>.setLargeIcon(BitmapFactory.decodeResource(this.getResources(),<br>R.mipmap.ic_large)) // 设置下拉列表中的图标(大图标)<br>　　<br>.setContentTitle(“下拉列表中的Title”) // 设置下拉列表里的标题<br>　　　　<br>.setSmallIcon(R.mipmap.ic_launcher) // 设置状态栏内的小图标<br>　　　　<br>.setContentText(“要显示的内容”) // 设置上下文内容<br>　　　　<br>.setWhen(System.currentTimeMillis()); // 设置该通知发生的时间<br>　　<br>　　<br>Notification notification = builder.build(); // 获取构建好的Notification<br>　　<br>notification.defaults = Notification.DEFAULT_SOUND; //设置为默认的声音  </p>
+<p>-&gt;<br>启动前台服务(在完成Notification通知消息的构建后，在Service的onStartCommand中可以使用startForeground方法来让Android服务运行在前台。):<br>// 参数一：唯一的通知标识；参数二：通知消息。<br>startForeground(110, notification);// 开始前台服务<br>-&gt;停止前台服务(在Service的onDestory中使用stopForeground方法来停止正在运行的前台服务。):<br>@Override<br>public void onDestroy() {<br>　　Log.d(TAG, “onDestroy()”);<br>　　stopForeground(true);// 停止前台服务–参数：表示是否移除之前的通知<br>　　super.onDestroy();<br>}</p>
 
       
     </div>
@@ -395,6 +418,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
 
       
       
@@ -404,8 +433,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/post/c438e30e.html" rel="next" title="一个面试题引发的关于synchronize的体会">
-                <i class="fa fa-chevron-left"></i> 一个面试题引发的关于synchronize的体会
+              <a href="/post/f1c62a93.html" rel="next" title="Spring学习第一章、第三节：基于注解的配置">
+                <i class="fa fa-chevron-left"></i> Spring学习第一章、第三节：基于注解的配置
               </a>
             
           </div>
@@ -413,10 +442,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/post/4a17b156.html" rel="prev" title="Hello World">
-                Hello World <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -634,7 +659,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一篇-GC如何判断如何回收垃圾"><span class="nav-number">1.</span> <span class="nav-text">第一篇 GC如何判断如何回收垃圾</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#mGet-GC"><span class="nav-number">1.1.</span> <span class="nav-text">mGet(GC);</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mGet-引用计数算法"><span class="nav-number">1.2.</span> <span class="nav-text">mGet(引用计数算法)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mGet-可达性分析算法"><span class="nav-number">1.3.</span> <span class="nav-text">mGet(可达性分析算法)</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Service是什么"><span class="nav-number">2.0.1.</span> <span class="nav-text">Service是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service的状态"><span class="nav-number">2.0.2.</span> <span class="nav-text">Service的状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service生命周期："><span class="nav-number">2.0.3.</span> <span class="nav-text">Service生命周期：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IntentService："><span class="nav-number">2.0.4.</span> <span class="nav-text">IntentService：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MediaPlayer的基本使用与Service的整合"><span class="nav-number">2.0.5.</span> <span class="nav-text">MediaPlayer的基本使用与Service的整合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前台服务："><span class="nav-number">2.0.6.</span> <span class="nav-text">前台服务：</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -797,9 +822,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/post/3ee5e646.html';
-          this.page.identifier = 'post/3ee5e646.html';
-          this.page.title = '漫画编程中对垃圾回收的理解记录';
+          this.page.url = 'http://yoursite.com/post/337f7657.html';
+          this.page.identifier = 'post/337f7657.html';
+          this.page.title = 'Android Service理解';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://Wnliam.disqus.com/embed.js';
