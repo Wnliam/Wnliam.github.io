@@ -336,17 +336,6 @@
 
           
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/post/f1c62a93.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="post/f1c62a93.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -641,18 +630,7 @@
           
 
   
-    <div class="comments" id="comments">
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    </div>
-
   
-
-
 
         </div>
         
@@ -947,26 +925,6 @@
 
   
 
-    
-      <script id="dsq-count-scr" src="https://Wnliam.disqus.com/count.js" async></script>
-    
-
-    
-      <script type="text/javascript">
-        var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/post/f1c62a93.html';
-          this.page.identifier = 'post/f1c62a93.html';
-          this.page.title = 'Spring学习第一章、第三节：基于注解的配置';
-        };
-        var d = document, s = d.createElement('script');
-        s.src = 'https://Wnliam.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', '' + +new Date());
-        (d.head || d.body).appendChild(s);
-      </script>
-    
-
-  
-
 
 
 
@@ -982,6 +940,7 @@
 
 
 
+  
 
 
 
@@ -989,6 +948,26 @@
 
 
 
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'dc4ce7ebaab5ea5f61df',
+          clientSecret: 'a35a6cd38c57bfdc5a746871252c9cdcc2452024',
+          repo: 'Wnliam.github.io',
+          owner: 'Wnliam',
+          admin: ['Wnliam'],
+          id: location.pathname,
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
 
 
   
