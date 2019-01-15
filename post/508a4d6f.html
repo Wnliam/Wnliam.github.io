@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据库," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言因为项目需要，要搭建一个mariadb数据库，这里记录一下搭建过程以便之后的使用，同时进行分享。鉴于网上说的yum源安装和配置特别详细，同时大佬们对编译方式安装mysql和mariadb极是推崇，这里我们就使用这种方法来进行配置和数据库搭建！ 正文用编译方式搭建Mariadb有以下几个步骤： 安装cmake：因为是编译安装，就需要依赖一些编译必须的工具包和编译工具，这里我们使用cmake。（如">
+<meta name="keywords" content="数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译安装marriadb">
+<meta property="og:url" content="http://yoursite.com/post/508a4d6f.html">
+<meta property="og:site_name" content="Wnliam">
+<meta property="og:description" content="前言因为项目需要，要搭建一个mariadb数据库，这里记录一下搭建过程以便之后的使用，同时进行分享。鉴于网上说的yum源安装和配置特别详细，同时大佬们对编译方式安装mysql和mariadb极是推崇，这里我们就使用这种方法来进行配置和数据库搭建！ 正文用编译方式搭建Mariadb有以下几个步骤： 安装cmake：因为是编译安装，就需要依赖一些编译必须的工具包和编译工具，这里我们使用cmake。（如">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://wnliam-cn.gitee.io/yaningnaw.github.io/assets/img/jekyll-img/20181205111840.png">
+<meta property="og:image" content="https://wnliam-cn.gitee.io/yaningnaw.github.io/assets/img/jekyll-img/20181205150244.png">
+<meta property="og:image" content="https://wnliam-cn.gitee.io/yaningnaw.github.io/assets/img/jekyll-img/20181205150405.png">
+<meta property="og:image" content="https://wnliam-cn.gitee.io/yaningnaw.github.io/assets/img/jekyll-img/20181205153210.png">
+<meta property="og:image" content="https://wnliam-cn.gitee.io/yaningnaw.github.io/assets/img/jekyll-img/20181206141855.png">
+<meta property="og:updated_time" content="2019-01-15T09:11:45.850Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编译安装marriadb">
+<meta name="twitter:description" content="前言因为项目需要，要搭建一个mariadb数据库，这里记录一下搭建过程以便之后的使用，同时进行分享。鉴于网上说的yum源安装和配置特别详细，同时大佬们对编译方式安装mysql和mariadb极是推崇，这里我们就使用这种方法来进行配置和数据库搭建！ 正文用编译方式搭建Mariadb有以下几个步骤： 安装cmake：因为是编译安装，就需要依赖一些编译必须的工具包和编译工具，这里我们使用cmake。（如">
+<meta name="twitter:image" content="https://wnliam-cn.gitee.io/yaningnaw.github.io/assets/img/jekyll-img/20181205111840.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/post/508a4d6f.html"/>
+
+
+
+
+
+  <title>编译安装marriadb | Wnliam</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b09783d87e6f1a3c07023ecc66618f3c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wnliam</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">王亚宁的博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-🏠-首页">
+          <a href="/" rel="section">
+            
+            🏠 首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-🔖-标签">
+          <a href="/tags/" rel="section">
+            
+            🔖 标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-🍃-分类">
+          <a href="/categories/" rel="section">
+            
+            🍃 分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-🖊-归档">
+          <a href="/archives/" rel="section">
+            
+            🖊 归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-📕-简历">
+          <a href="/about/" rel="section">
+            
+            📕 简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-⭐backstar">
+          <a href="https://yaningnaw.github.io/" rel="section">
+            
+            ⭐backStar
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/post/508a4d6f.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王亚宁 Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://wnliam-cn.gitee.io/yaningnaw.github.io/assets/img/profile.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wnliam">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">编译安装marriadb</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-15T17:11:45+08:00">
+                2019-01-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/stadyNotes/" itemprop="url" rel="index">
+                    <span itemprop="name">stadyNotes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>因为项目需要，要搭建一个mariadb数据库，这里记录一下搭建过程以便之后的使用，同时进行分享。<br>鉴于网上说的yum源安装和配置特别详细，同时大佬们对编译方式安装mysql和mariadb极是推崇，这里我们就使用这种方法来进行配置和数据库搭建！</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="用编译方式搭建Mariadb有以下几个步骤："><a href="#用编译方式搭建Mariadb有以下几个步骤：" class="headerlink" title="用编译方式搭建Mariadb有以下几个步骤："></a>用编译方式搭建Mariadb有以下几个步骤：</h2><ol>
+<li>安装cmake：<br>因为是编译安装，就需要依赖一些编译必须的工具包和编译工具，这里我们使用cmake。（如果已经安装过就可以忽略这一步）</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake --version</span><br></pre></td></tr></table></figure>
+<p>如果有版本信息则说明cmake已经安装成功了，如果没有该命令则按照以下步骤进行安装。</p>
+<ul>
+<li><p>下载cmake编译可执行版<br>访问<br><a href="http://www.cmake.org/cmake/resources/software.html" target="_blank" rel="noopener">http://www.cmake.org/cmake/resources/software.html</a> 下载如cmake-3.12.4-Linux-x86_64.tar.gz的包<br><img src="https://wnliam-cn.gitee.io/yaningnaw.github.io/assets/img/jekyll-img/20181205111840.png" alt="image"><br>**切记不要下载源代码版本如cmake-3.13.1.tar.gz，这个版本还需要进行编译</p>
+</li>
+<li><p>解压cmake</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf cmake-3.12.4-Linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置cmake指令环境</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile</span><br></pre></td></tr></table></figure>
+<p>打开之后在文件的末尾加上绝对路径如（根据你的cmake位置）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=/usr/local/cmake-3.12.4-Linux-x86_64/bin:$PATH</span><br></pre></td></tr></table></figure>
+<p>重新连接新的终端就可以再测试是否安装cmake了！</p>
+<ul>
+<li>为保证不缺依赖，执行以下命令</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum -y install readline-devel</span><br><span class="line">yum -y install zlib-devel</span><br><span class="line">yum -y install openssl-devel</span><br><span class="line">yum -y install libaio-devel</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>安装mariadb</li>
+</ol>
+<ul>
+<li>去mariadb官网下载mariadb源的包：<br><a href="https://mariadb.org/download/" target="_blank" rel="noopener">https://mariadb.org/download/</a></li>
+</ul>
+<p><img src="https://wnliam-cn.gitee.io/yaningnaw.github.io/assets/img/jekyll-img/20181205150244.png" alt="image"><br><img src="https://wnliam-cn.gitee.io/yaningnaw.github.io/assets/img/jekyll-img/20181205150405.png" alt="image"><br>下载 mariadb-10.3.11.tar.gz<br><img src="https://wnliam-cn.gitee.io/yaningnaw.github.io/assets/img/jekyll-img/20181205153210.png" alt="image"><br>解压：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvzf mariadb-10.3.11.tar.gz</span><br></pre></td></tr></table></figure>
+<ul>
+<li>现在提前预定安装目录为/usr/local/mysql并且数据目录为/data1/mysql，这里要建立用户和目录，并且赋予mysql用户权限，操作如下：（可自己定义）</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">groupadd -r mysql</span><br><span class="line">useradd -g mysql -s /sbin/nologin mysql</span><br><span class="line">mkdir /usr/local/mysql</span><br><span class="line">mkdir -p /data1/mysql</span><br><span class="line">chown -R mysql:mysql /data1/mysql/</span><br></pre></td></tr></table></figure>
+<ul>
+<li>进入安装包路径下</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd mariadb--10.3.11</span><br></pre></td></tr></table></figure>
+<ul>
+<li>编译配置</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cmake . </span><br><span class="line">-DCMAKE_INSTALL_PREFIX=/usr/local/mysql                #指定安装位置（可自定义）</span><br><span class="line">-DMYSQL_DATADIR=/data1/mysql                           #指定数据目录（可自定义）</span><br><span class="line">-DSYSCONFDIR=/etc                                      #配置文件所在的目录（一般放在etc目录下）</span><br><span class="line">-DWITHOUT_TOKUDB=1                                     #这个参数一般都要设置上，表示不安装tokudb引擎</span><br><span class="line">-DWITH_INNOBASE_STORAGE_ENGINE=1                       </span><br><span class="line">-DWITH_ARCHIVE_STPRAGE_ENGINE=1                        </span><br><span class="line">-DWITH_BLACKHOLE_STORAGE_ENGINE=1                      </span><br><span class="line">-DWIYH_READLINE=1 -DWIYH_SSL=system                    </span><br><span class="line">-DVITH_ZLIB=system -DWITH_LOBWRAP=0                    </span><br><span class="line">-DMYSQL_UNIX_ADDR=/tmp/mysql.sock                      </span><br><span class="line">-DDEFAULT_CHARSET=utf8                                 </span><br><span class="line">-DDEFAULT_COLLATION=utf8_general_ci                    </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>-DWITHOUT_TOKUDB=1这个参数一般都要设置上，表示不安装tokudb引擎，tokudb是MySQL中一款开源的存储引擎，可以管理大量数据并且有一些新的特性，这些是Innodb所不具备的，这里之所以不安装，是因为一般计算机默认是没有Percona Server的，并且加载tokudb还要依赖jemalloc内存优化，一般开发中也是不用tokudb的，所以暂时屏蔽掉，否则在系统中找不到依赖会出现：CMake Error at storage/tokudb/PerconaFT/cmake_modules/TokuSetupCompiler.cmake:179 (message)这样的错误</span><br></pre></td></tr></table></figure>
+<p>实际情况下我们也可以执行这段代码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/data1/mysql -DSYSCONFDIR=/etc -DWITHOUT_TOKUDB=1 -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci</span><br></pre></td></tr></table></figure>
+<p>注意：如果万一执行中有了错误，可以执行： rm -f CMakeCache.txt 删除编译缓存，让指令重新执行，否则每次读取这个文件，命令修改正确也是报错</p>
+<ul>
+<li>执行编译安装</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<p>这将会花很长时间，耐心等待</p>
+<p>解压完之后就可以进入mariadb的安装路径下执行以下命令进行授权和服务设置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">chown -R mysql:mysql .</span><br><span class="line">scripts/mysql_install_db --datadir=/data1/mysql --user=mysql</span><br><span class="line">chown -R root .</span><br><span class="line">cp support-files/mysql.server /etc/init.d/mysqld</span><br></pre></td></tr></table></figure>
+<p>将mysqlid添加到系统服务：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --add mysqld   # 添加至系统服务</span><br><span class="line">chkconfig mysqld on    # 设置开机自启动</span><br></pre></td></tr></table></figure>
+<p>建立日志目录：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /var/log/mariadb</span><br></pre></td></tr></table></figure>
+<p>启动服务：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/mysqld start</span><br><span class="line">或</span><br><span class="line">service mysqld start</span><br><span class="line">或</span><br><span class="line">systemctl start mysqld.service</span><br></pre></td></tr></table></figure></p>
+<p>设置my.cnf文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/my.cnf</span><br></pre></td></tr></table></figure>
+<p>参考以下内容：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">datadir=/data1/mysql</span><br><span class="line">socket=/tmp/mysql.sock   #设为编译执行的本地socket</span><br><span class="line">user=mysql</span><br><span class="line">lower_case_table_names=1  #设置数据表大小写不敏感（值为0时大小写敏感）</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>最后设置mariadb的环境变量</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=/usr/local/mysql/bin:$PATH</span><br></pre></td></tr></table></figure>
+<p>打开新的终端执行mysql：<br><img src="https://wnliam-cn.gitee.io/yaningnaw.github.io/assets/img/jekyll-img/20181206141855.png" alt="image"></p>
+<p>这样 ，mariadb的搭建就成功了。</p>
+<h2 id="相关："><a href="#相关：" class="headerlink" title="相关："></a>相关：</h2><p>Mariadb的用户名和密码设置和mysql是一样的：</p>
+<h3 id="MariaDB设置初始化密码及修改密码"><a href="#MariaDB设置初始化密码及修改密码" class="headerlink" title="MariaDB设置初始化密码及修改密码"></a>MariaDB设置初始化密码及修改密码</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">方法1：</span><br><span class="line">　　[root@localhost ~]# mysql </span><br><span class="line"><span class="meta">　　MariaDB[(none)]&gt;</span> UPDATE mysql.user SET password = PASSWORD(‘newpassword’) WHERE USER = ‘root’;</span><br><span class="line"><span class="meta">　　MariaDB[(none)]&gt;</span> FLUSH PRIVILEGES;</span><br><span class="line"></span><br><span class="line">方法2： </span><br><span class="line">　　[root@localhost ~]# mysql</span><br><span class="line"><span class="meta">　　MariaDB[(none)]&gt;</span> SET password=PASSWORD('newpassward');</span><br><span class="line"></span><br><span class="line">方法3：</span><br><span class="line">        [root@localhost ~]# mysqladmin -u root password 'newpassword'</span><br><span class="line">　　如果root已经设置过密码，采用如下方法 </span><br><span class="line">        [root@localhost ~]#mysqladmin -u root -p 'oldpassword' password 'newpassword'</span><br></pre></td></tr></table></figure>
+<h3 id="授权远程登陆"><a href="#授权远程登陆" class="headerlink" title="授权远程登陆"></a>授权远程登陆</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on *.* to '用户名'@'%' identified by '登录密码' with grant option；</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<p>还有很多操作想必不需要一一罗列了，现在就开始使用mariadb吧^_^!!</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库/" rel="tag"># 数据库</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/e297cad0.html" rel="next" title="简述@Autowired和@Resource的区别">
+                <i class="fa fa-chevron-left"></i> 简述@Autowired和@Resource的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+  
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://wnliam-cn.gitee.io/yaningnaw.github.io/assets/img/profile.jpg"
+                alt="王亚宁 Doe" />
+            
+              <p class="site-author-name" itemprop="name">王亚宁 Doe</p>
+              <p class="site-description motion-element" itemprop="description">书山有路勤为径，学海无涯苦作舟</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Wnliam" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:hhtwangyaning@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用编译方式搭建Mariadb有以下几个步骤："><span class="nav-number">2.1.</span> <span class="nav-text">用编译方式搭建Mariadb有以下几个步骤：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关："><span class="nav-number">2.2.</span> <span class="nav-text">相关：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MariaDB设置初始化密码及修改密码"><span class="nav-number">2.2.1.</span> <span class="nav-text">MariaDB设置初始化密码及修改密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#授权远程登陆"><span class="nav-number">2.2.2.</span> <span class="nav-text">授权远程登陆</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王亚宁 Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'dc4ce7ebaab5ea5f61df',
+          clientSecret: 'a35a6cd38c57bfdc5a746871252c9cdcc2452024',
+          repo: 'Wnliam.github.io',
+          owner: 'Wnliam',
+          admin: ['Wnliam'],
+          id: location.pathname,
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
