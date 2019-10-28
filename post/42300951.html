@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Mybatis,Java," />
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="书山有路勤为径，学海无涯苦作舟">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Wnliam">
-<meta property="og:url" content="http://yoursite.com/archives/2018/11/index.html">
+<meta name="description" content="批量操作我们在使用mybatis时会经常用到标签，再进行批量insert/update时，出于性能考虑我们往往以多调sql形式拼接sql语句：如下 12345&amp;lt;update ...&amp;gt;    &amp;lt;foreach ... separator=&amp;quot;;&amp;quot;&amp;gt;    update ...    --这里是更新的内容    &amp;lt;/foreach&amp;gt;&amp;lt;/upd">
+<meta name="keywords" content="Mybatis,Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mybatis批量操作的坑">
+<meta property="og:url" content="http://yoursite.com/post/42300951.html">
 <meta property="og:site_name" content="Wnliam">
-<meta property="og:description" content="书山有路勤为径，学海无涯苦作舟">
+<meta property="og:description" content="批量操作我们在使用mybatis时会经常用到标签，再进行批量insert/update时，出于性能考虑我们往往以多调sql形式拼接sql语句：如下 12345&amp;lt;update ...&amp;gt;    &amp;lt;foreach ... separator=&amp;quot;;&amp;quot;&amp;gt;    update ...    --这里是更新的内容    &amp;lt;/foreach&amp;gt;&amp;lt;/upd">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-28T07:26:02.803Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Wnliam">
-<meta name="twitter:description" content="书山有路勤为径，学海无涯苦作舟">
+<meta name="twitter:title" content="Mybatis批量操作的坑">
+<meta name="twitter:description" content="批量操作我们在使用mybatis时会经常用到标签，再进行批量insert/update时，出于性能考虑我们往往以多调sql形式拼接sql语句：如下 12345&amp;lt;update ...&amp;gt;    &amp;lt;foreach ... separator=&amp;quot;;&amp;quot;&amp;gt;    update ...    --这里是更新的内容    &amp;lt;/foreach&amp;gt;&amp;lt;/upd">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2018/11/"/>
+  <link rel="canonical" href="http://yoursite.com/post/42300951.html"/>
 
 
 
 
 
-  <title>归档 | Wnliam</title>
+  <title>Mybatis批量操作的坑 | Wnliam</title>
   
 
 
@@ -153,7 +155,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -255,296 +257,215 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/post/42300951.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王亚宁 Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://wnliam-cn.gitee.io/yaningnaw.github.io/assets/img/profile.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wnliam">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">Mybatis批量操作的坑</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-28T15:26:02+08:00">
+                2019-10-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 13 篇日志。 继续努力。
-      </span>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/stadyNotes/" itemprop="url" rel="index">
+                    <span itemprop="name">stadyNotes</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/post/e297cad0.html" itemprop="url">
-              
-                <span itemprop="name">简述@Autowired和@Resource的区别</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-21T11:48:33+08:00"
-              content="2018-11-21" >
-          11-21
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/post/337f7657.html" itemprop="url">
-              
-                <span itemprop="name">Android Service理解</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-19T15:16:02+08:00"
-              content="2018-11-19" >
-          11-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/post/f1c62a93.html" itemprop="url">
-              
-                <span itemprop="name">Spring学习第一章、第三节：基于注解的配置</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-07T17:21:05+08:00"
-              content="2018-11-07" >
-          11-07
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <h2 id="批量操作"><a href="#批量操作" class="headerlink" title="批量操作"></a>批量操作</h2><p>我们在使用mybatis时会经常用到<foreach>标签，再进行批量insert/update时，出于性能考虑我们往往以多调sql形式拼接sql语句：如下</foreach></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;update ...&gt;</span><br><span class="line">    &lt;foreach ... separator=&quot;;&quot;&gt;</span><br><span class="line">    update ...    --这里是更新的内容</span><br><span class="line">    &lt;/foreach&gt;</span><br><span class="line">&lt;/update&gt;</span><br></pre></td></tr></table></figure>
+<p>这种情况下，原本在测试环境下跑通的代码却无法在正式环境进行运行，但测试和正式的环境完全相同，由于项目时间紧张只能曲线救国，将拼接sql的语句放到代码中完成，或者insert语句用in(….)进行批量插入。</p>
+<p>在完成项目功能之后，开始梳理遇到该问题的原因，了解到如果想在sql拼接时进行多条数据执行，必须在连接数据库时加&amp;allowMultiQueries=true</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jdbc:mysql://localhost:3306/platform?characterEncoding=UTF-8&amp;allowMultiQueries=true</span><br></pre></td></tr></table></figure>
+<p>而数据库配置中确实已经有该配置，而测试与正式环境执行不同，我们将问题定位在了正式环境中的配置文件。<br>经过核对，正式环境的配置也相同，于是需要考虑正式环境不同之处。</p>
+<p>由于该项目是搭建在Kubernetes上的springboot项目，检查了启动项目时的脚本发现，每次启动时会进行mysql连接的重新配置，这里没有加入&amp;allowMultiQueries=true。在正式环境启动脚本中增加该内容，项目启动后批量插入功能正常使用。</p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/post/46992110.html" itemprop="url">
-              
-                <span itemprop="name">Spring学习第一章 、 第一节：Spring Ioc容器</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-05T19:47:20+08:00"
-              content="2018-11-05" >
-          11-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/post/4a17b156.html" itemprop="url">
-              
-                <span itemprop="name">Hello World</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-02T17:43:24+08:00"
-              content="2018-11-02" >
-          11-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/post/3ee5e646.html" itemprop="url">
-              
-                <span itemprop="name">漫画编程中对垃圾回收的理解记录</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-02T15:18:07+08:00"
-              content="2018-11-02" >
-          11-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/post/c438e30e.html" itemprop="url">
-              
-                <span itemprop="name">一个面试题引发的关于synchronize的体会</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-02T15:18:06+08:00"
-              content="2018-11-02" >
-          11-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Mybatis/" rel="tag"># Mybatis</a>
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/6869cf19.html" rel="next" title="Spring事务使用中的坑">
+                <i class="fa fa-chevron-left"></i> Spring事务使用中的坑
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
 
 
           </div>
@@ -552,6 +473,13 @@
 
 
           
+
+  
+    <div id="gitalk-container"></div>
+  
+  
+
+
 
         </div>
         
@@ -572,8 +500,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -671,6 +608,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#批量操作"><span class="nav-number">1.</span> <span class="nav-text">批量操作</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -804,6 +757,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -844,6 +801,22 @@
 
 
 
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'dc4ce7ebaab5ea5f61df',
+          clientSecret: 'a35a6cd38c57bfdc5a746871252c9cdcc2452024',
+          repo: 'Wnliam.github.io',
+          owner: 'Wnliam',
+          admin: ['Wnliam'],
+          id: location.pathname,
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
 
 
   

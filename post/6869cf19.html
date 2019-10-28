@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Spring,Java," />
+  <meta name="keywords" content="Java,Spring," />
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="1.throws普通异常事务不回滚近期项目中发现了一些原本不应该出现的数据异常，通过对逻辑的梳理怀疑是sql执行失败的问题，然而该sql和其同业务sql在同一个事务中，出现问题可能是事务执行失败没有回滚！ 1234@Transactional/***代码块*/ 首先要确定问题确实出现在该事务中，于是在出现问题的SQL前加上了抛出异常的代码，执行后确实发现事务并没有进行回滚操作。 在加异常抛出的过程">
-<meta name="keywords" content="Spring,Java">
+<meta name="keywords" content="Java,Spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring事务使用中的坑">
 <meta property="og:url" content="http://yoursite.com/post/6869cf19.html">
@@ -398,9 +398,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Spring/" rel="tag"># Spring</a>
-          
             <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
           
         </div>
       
@@ -422,6 +422,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/42300951.html" rel="prev" title="Mybatis批量操作的坑">
+                Mybatis批量操作的坑 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -543,7 +547,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -565,7 +569,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
